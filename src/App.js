@@ -1,27 +1,17 @@
 import './App.css';
 import { SearchBar } from './components/SearchBar';
 import { Gallery } from './components/Gallery';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DataContext } from './contexts/DataContext';
+import { SearchContext } from './contexts/SearchContext';
 
 
 function App() {
-  let [query, setQuery] = useState('');
   let [data, setData] = useState([]);
   let [message, setMesssage] = useState('Search for Music!');
+  let searchInput = useRef('')
 
-  useEffect(() => {
-    const fetchData = () => {
-      document.title = `${query} Music`
-      fetch(`https://itunes.apple.com/search?term=${query}`)
-        .then(response => response.json())
-        .then(result => {
-          setData(result.results)
-        })
-    }
 
-    fetchData()
-  }, [query])
 
 
   /*
@@ -38,14 +28,25 @@ function App() {
   */
   const handleSubmit = (e, term) => {
     e.preventDefault()
-    setQuery(term);
+    const fetchData = (query) => {
+      document.title = `${query} Music`
+      fetch(`https://itunes.apple.com/search?term=${query}`)
+        .then(response => response.json())
+        .then(result => {
+          setData(result.results)
+        })
+    }
+
+    fetchData(term)
   }
 
   return (
     <>
+      <SearchContext.Provider value={{ref: searchInput, handleSubmit}} >
+        <SearchBar />
+      </SearchContext.Provider>
+      {message}
       <DataContext.Provider value={data} >
-        <SearchBar handleSubmit={handleSubmit} />
-        {message}
         <Gallery />
       </DataContext.Provider>
     </>
