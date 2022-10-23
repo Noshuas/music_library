@@ -28,16 +28,16 @@ function App() {
   */
   const handleSubmit = (e, term) => {
     e.preventDefault()
-    const fetchData = (query) => {
-      document.title = `${query} Music`
-      fetch(`https://itunes.apple.com/search?term=${query}`)
+    const fetchData = () => {
+      document.title = `${term} Music`
+      fetch(`https://itunes.apple.com/search?term=${term}`)
         .then(response => response.json())
         .then(result => {
           setData(result.results)
         })
     }
 
-    fetchData(term)
+    fetchData()
   }
 
   return (
