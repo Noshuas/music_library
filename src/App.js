@@ -2,6 +2,7 @@ import './App.css';
 import { SearchBar } from './components/SearchBar';
 import { Gallery } from './components/Gallery';
 import { useEffect, useState } from 'react';
+import { DataContext } from './contexts/DataContext';
 
 
 function App() {
@@ -42,9 +43,11 @@ function App() {
 
   return (
     <>
-      <SearchBar handleSubmit={handleSubmit}/>
-      {message}
-      <Gallery data={data}/>
+      <DataContext.Provider value={data} >
+        <SearchBar handleSubmit={handleSubmit} />
+        {message}
+        <Gallery />
+      </DataContext.Provider>
     </>
   );
 }
