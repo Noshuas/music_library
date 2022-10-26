@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function GalleryItem({ track }) {
   let [isExpanded, setIsExpanded] = useState(false)
@@ -39,7 +40,19 @@ export function GalleryItem({ track }) {
   const detailedView = (
     <div style={detailStyle} >
       <h2>{track.trackName}</h2>
-      <h3>{track.collectionName}</h3>
+
+      <h3>
+        <Link to={`/artist/${track.artistId}`}>
+          {track.artistName}
+        </Link>
+      </h3>
+
+      <h3>
+        <Link to={`/album/${track.collectionId}`}>
+          {track.collectionName}
+        </Link>
+      </h3>
+
       <h4>{track.primaryGenreName}</h4>
       <h4>{track.releaseDate}</h4>
     </div>
