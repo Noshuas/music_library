@@ -2,6 +2,9 @@ import './App.css';
 import { SearchBar } from './components/SearchBar';
 import { Gallery } from './components/Gallery';
 import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ArtistView } from './components/ArtistView';
+import { AlbumView } from './components/AlbumView';
 
 
 function App() {
@@ -35,6 +38,7 @@ function App() {
   C.) when there is a dependency list with elements inside
   it will run when it detects a change to the tracked variables.
   */
+
   const handleSubmit = (e, term) => {
     e.preventDefault()
     setQuery(term);
@@ -42,12 +46,23 @@ function App() {
 
   return (
     <>
-      <SearchBar handleSubmit={handleSubmit}/>
       {message}
-      <Gallery data={data}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <SearchBar handleSubmit={handleSubmit} />
+              <Gallery data={data} />
+            </>
+          } />
+          <Route path="/album/:id" element={<AlbumView />} />
+          <Route path="/artist/:id" element={<ArtistView />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
+
 
 export default App;
 
